@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 import pro.sky.collections.Employee;
 import pro.sky.collections.sirvice.EmployeeService;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -33,7 +36,10 @@ public class EmployeeController {
     public Employee find(@RequestParam String lastName, @RequestParam String firstName) {
         return EmployeeService.findEmployee(lastName, firstName);
     }
-
+    @GetMapping(path = "/all")
+    public Collection<Employee> printAll() {
+        return new ArrayList<>(Employee.employees);
+    }
 
 }
 
