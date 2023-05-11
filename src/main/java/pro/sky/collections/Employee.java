@@ -1,6 +1,5 @@
 package pro.sky.collections;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Employee {
@@ -12,24 +11,20 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public  static ArrayList<Employee> employees = new ArrayList<Employee>();
-
     public String getFirstName() {
-
         return firstName;
     }
 
     public String getLastName() {
-
         return lastName;
     }
 
     public void setFirstName(String firstName) {
+
         this.firstName = firstName;
     }
 
     public void setLastName(String lastName) {
-
         this.lastName = lastName;
     }
 
@@ -49,7 +44,6 @@ public class Employee {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(firstName, lastName);
     }
 }

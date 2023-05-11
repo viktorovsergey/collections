@@ -8,53 +8,50 @@ import pro.sky.collections.exceptions.EmployeeStorageIsFullException;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class EmployeeService {
-    public static int maxCollectionSize = 10;
+    private static final int MaxCollectionSize = 10;
+    public final ArrayList<Employee> employees = new ArrayList<Employee>();
 
-    public static Employee addEmployee(String lastName, String firstName) {
+
+    public Employee addEmployee(String lastName, String firstName) {
         Employee employee = new Employee(lastName, firstName);
-        int collectionSize = Employee.employees.size();
-        if (collectionSize < maxCollectionSize) {
-            if (Employee.employees.contains(employee)) {
-                throw new EmployeeAlreadyAddedException();
-            }
-            Employee.employees.add(employee);
-            System.out.println("Добавлена запись" + employee.toString());
-        } else {
+        if (employees.size() > MaxCollectionSize) {
             throw new EmployeeStorageIsFullException();
         }
-        return employee;
-    }
-
-    public static String printEmployee() {
-        for (int i = 0; i < Employee.employees.size(); i++) {
-            System.out.println("Фамилия " + Employee.employees.get(i).getLastName() + "Имя " + Employee.employees.get(i).getFirstName());
-        } 
-        return null;
-    }
-
-    public static Employee delEmployee(String lastName, String firstName) {
-       Employee tempEmployee =new Employee(lastName,firstName);
-        if (!Employee.employees.contains(tempEmployee)){
-            throw new EmployeeNotFoundException();
-        }else {
-            Employee.employees.remove(tempEmployee);
-            System.out.println("Удалена запись " + tempEmployee.toString());
+        if (employees.contains(employee)) {
+            throw new EmployeeAlreadyAddedException();
+        } else {
+            employees.add(employee);
+            System.out.println("Добавлена запись" + employee.toString());
+            return employee;
         }
-        return tempEmployee;
     }
 
+    public Employee delEmployee(String lastName, String firstName) {
+        Employee tempEmployee = new Employee(lastName, firstName);
+        if (employees.contains(tempEmployee)) {
+            employees.remove(tempEmployee);
+            System.out.println("Удалена запись" + tempEmployee.toString());
+          return tempEmployee;
+        }
+            throw new EmployeeNotFoundException();
+    }
 
-    public static Employee findEmployee(String lastName, String firstName) {
-        Employee tempEmployee =new Employee(lastName,firstName);
-        if (Employee.employees.contains(tempEmployee)){
-            System.out.println("Искомый элемент "+ tempEmployee+" присутствует в списке ");
-        }else {
+    public Employee findEmployee(String lastName, String firstName) {
+        Employee tempEmployee = new Employee(lastName, firstName);
+        if (employees.contains(tempEmployee)) {
+            System.out.println("Найдена запись" + tempEmployee.toString());
+            return tempEmployee;
+        } else {
             throw new EmployeeNotFoundException();
         }
-        return tempEmployee;
     }
+    public List<Employee> printEmployees(){
+        return employees;
+    }
+
 }
 
 
