@@ -30,8 +30,8 @@ private final EmployeeService employeeService;
         return employeeService.findEmployee(lastName, firstName);
     }
     @GetMapping(path = "/all")
-    public Collection<Employee> remove () {
-        return employeeService.printEmployees();
+    public Collection<Employee> print() {
+                return employeeService.printEmployees();
     }
   }
 

@@ -11,13 +11,13 @@ import java.util.List;
 
 @Service
 public class EmployeeService {
-    private static final int MaxCollectionSize = 10;
-    public final ArrayList<Employee> employees = new ArrayList<Employee>();
+    private static final int MAX_COLLECTION_SIZE = 10;
+    public final List<Employee> employees = new ArrayList<Employee>();
 
 
     public Employee addEmployee(String lastName, String firstName) {
         Employee employee = new Employee(lastName, firstName);
-        if (employees.size() > MaxCollectionSize) {
+        if (employees.size() > MAX_COLLECTION_SIZE) {
             throw new EmployeeStorageIsFullException();
         }
         if (employees.contains(employee)) {
@@ -49,6 +49,7 @@ public class EmployeeService {
         }
     }
     public List<Employee> printEmployees(){
+
         return employees;
     }
 
