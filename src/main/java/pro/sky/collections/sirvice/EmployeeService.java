@@ -6,51 +6,47 @@ import pro.sky.collections.exceptions.EmployeeAlreadyAddedException;
 import pro.sky.collections.exceptions.EmployeeNotFoundException;
 import pro.sky.collections.exceptions.EmployeeStorageIsFullException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmployeeService {
     private static final int MAX_COLLECTION_SIZE = 10;
-    public final List<Employee> employees = new ArrayList<Employee>();
-
+    private final Map<String, Employee> employees = new HashMap<>();
 
     public Employee addEmployee(String lastName, String firstName) {
-        Employee employee = new Employee(lastName, firstName);
         if (employees.size() > MAX_COLLECTION_SIZE) {
             throw new EmployeeStorageIsFullException();
         }
-        if (employees.contains(employee)) {
+        var key = (firstName + " " + lastName).toLowerCase();
+        if (employees.containsKey(key)) {
             throw new EmployeeAlreadyAddedException();
         } else {
-            employees.add(employee);
-            System.out.println("Добавлена запись" + employee.toString());
+            Employee employee = new Employee(lastName, firstName);
+            employees.put(key, employee);
+            System.out.println("Добавлена запись "+ key);
             return employee;
         }
     }
-
     public Employee delEmployee(String lastName, String firstName) {
-        Employee tempEmployee = new Employee(lastName, firstName);
-        if (employees.contains(tempEmployee)) {
-            employees.remove(tempEmployee);
-            System.out.println("Удалена запись" + tempEmployee.toString());
-          return tempEmployee;
-        }
+        var key = (firstName + " " + lastName).toLowerCase();
+        var removed = employees.remove(key);
+        if (removed == null) {
             throw new EmployeeNotFoundException();
+        }
+        System.out.println("Удалена запись" + key);
+        return removed;
     }
-
     public Employee findEmployee(String lastName, String firstName) {
-        Employee tempEmployee = new Employee(lastName, firstName);
-        if (employees.contains(tempEmployee)) {
-            System.out.println("Найдена запись" + tempEmployee.toString());
-            return tempEmployee;
-        } else {
+        var key = (firstName + " " + lastName).toLowerCase();
+        var find = employees.get(key);
+        if (find == null) {
             throw new EmployeeNotFoundException();
         }
+        System.out.println("Найдена запись" + key);
+        return find;
     }
-    public List<Employee> printEmployees(){
-
-        return employees;
+    public Collection<Employee> printEmployees() {
+        return employees.values();
     }
 
 }
