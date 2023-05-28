@@ -33,13 +33,13 @@ public class DepartmentService {
                 .min(Comparator.comparing(Employee::getWage))
                 .orElse(null);
     }
-    public Collection<Employee> all(int department) {
+    public Collection<Employee> allByDepartment(int department) {
         return employeeService.getEmployee()
                 .stream()
                 .filter(e -> e.getDepartment() == department)
                 .collect(Collectors.toList());
     }
-    public Map<Integer, List<Employee>> all() {
+    public Map<Integer, List<Employee>> allEmployee() {
         return employeeService.getEmployee()
                 .stream()
                 .collect(groupingBy(Employee::getDepartment));
