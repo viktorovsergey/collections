@@ -1,5 +1,7 @@
 package pro.sky.collections;
 
+import org.springframework.util.StringUtils;
+
 import java.util.Objects;
 
 public class Employee {
@@ -9,8 +11,8 @@ public class Employee {
     private Integer wage;
 
     public Employee(String lastName, String firstName, Integer department, Integer wage) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstName = StringUtils.capitalize(firstName.toLowerCase());
+        this.lastName = StringUtils.capitalize(lastName.toLowerCase());
         this.department = department;
         this.wage = wage;
     }

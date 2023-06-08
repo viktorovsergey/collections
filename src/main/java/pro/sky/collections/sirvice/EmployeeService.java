@@ -1,10 +1,13 @@
 package pro.sky.collections.sirvice;
+
 import org.springframework.stereotype.Service;
+
 import pro.sky.collections.Employee;
 import pro.sky.collections.exceptions.EmployeeAlreadyAddedException;
 import pro.sky.collections.exceptions.EmployeeNotFoundException;
 import pro.sky.collections.exceptions.EmployeeStorageIsFullException;
-
+import pro.sky.collections.exceptions.InvalidInputExeption;
+import org.apache.commons.lang3.StringUtils;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +19,7 @@ public class EmployeeService {
     private final Map<String, Employee> employees = new HashMap<>();
 
     public Employee addEmployee(String lastName, String firstName, int department, int wage) {
+        checkArguments(lastName,firstName);
         if (employees.size() > MAX_COLLECTION_SIZE) {
             throw new EmployeeStorageIsFullException();
         }
@@ -29,7 +33,9 @@ public class EmployeeService {
             return employee;
         }
     }
+
     public Employee delEmployee(String lastName, String firstName) {
+        checkArguments(lastName,firstName);
         var key = (firstName + " " + lastName).toLowerCase();
         var removed = employees.remove(key);
         if (removed == null) {
@@ -38,7 +44,9 @@ public class EmployeeService {
         System.out.println("Удалена запись" + key);
         return removed;
     }
+
     public Employee findEmployee(String lastName, String firstName) {
+        checkArguments(lastName,firstName);
         var key = (firstName + " " + lastName).toLowerCase();
         var find = employees.get(key);
         if (find == null) {
@@ -47,9 +55,15 @@ public class EmployeeService {
         System.out.println("Найдена запись" + key);
         return find;
     }
-    public Collection<Employee> getEmployee() {
 
+    public Collection<Employee> getEmployee() {
         return employees.values();
+    }
+
+    private void checkArguments(String lastName, String firstName) {
+        if (!(StringUtils.isAlpha(lastName) && StringUtils.isAlpha(firstName))) {
+            throw new InvalidInputExeption();
+        }
     }
 }
 
